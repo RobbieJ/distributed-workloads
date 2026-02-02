@@ -1,0 +1,38 @@
+# DGX Spark (GB10) training image
+# NGC base provides native ARM64 + CUDA 13.0 + Blackwell (sm_121a) support
+FROM nvcr.io/nvidia/pytorch:25.09-py3
+
+# Set environment variables for GPU compatibility
+ENV TRITON_PTXAS_PATH=/usr/local/cuda/bin/ptxas
+ENV PYTORCH_ALLOC_CONF=expandable_segments:True
+ENV PYTHONUNBUFFERED=1
+
+# Install ML training dependencies
+RUN pip install --no-cache-dir \
+    transformers \
+    datasets \
+    trl \
+    peft \
+    accelerate \
+    deepspeed \
+    bitsandbytes \
+    sentence-transformers \
+    "feast[milvus]" \
+    diffusers \
+    torchvision \
+    optuna \
+    faiss-cpu \
+    boto3 \
+    tensorboard \
+    onnx \
+    onnxruntime \
+    pyarrow \
+    pandas \
+    PyYAML \
+    plotext \
+    tabulate
+
+WORKDIR /workspace
+
+# Default: run training scripts from mounted volume
+CMD ["bash"]

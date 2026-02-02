@@ -1,0 +1,19 @@
+# DreamBooth FastAPI serving image
+FROM nvcr.io/nvidia/pytorch:25.09-py3
+
+ENV TRITON_PTXAS_PATH=/usr/local/cuda/bin/ptxas
+ENV PYTHONUNBUFFERED=1
+
+RUN pip install --no-cache-dir \
+    diffusers \
+    transformers \
+    accelerate \
+    fastapi \
+    uvicorn \
+    Pillow
+
+WORKDIR /workspace
+
+EXPOSE 8000
+
+CMD ["uvicorn", "scripts.07_dreambooth_serve:app", "--host", "0.0.0.0", "--port", "8000"]

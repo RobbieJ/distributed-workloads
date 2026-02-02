@@ -1,0 +1,12 @@
+# DreamBooth training configuration
+# Used with: python scripts/07_dreambooth.py
+concept_name: ccorgi
+concept_type: dog
+dataset_id: diffusers/dog-example
+model_id: CompVis/stable-diffusion-v1-4
+learning_rate: 2.0e-6
+max_train_steps: 300
+train_batch_size: 1
+gradient_checkpointing: true
+use_8bit_adam: true
+seed: 3434554

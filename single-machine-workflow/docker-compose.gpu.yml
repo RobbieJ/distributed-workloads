@@ -1,0 +1,55 @@
+services:
+  training:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.training
+    volumes:
+      - ./scripts:/workspace/scripts
+      - ./configs:/workspace/configs
+      - ./data:/workspace/data
+      - ./models:/workspace/models
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+      - HF_HOME=/workspace/data/.cache
+      - TRITON_PTXAS_PATH=/usr/local/cuda/bin/ptxas
+      - PYTORCH_ALLOC_CONF=expandable_segments:True
+      - MINIO_ENDPOINT=http://minio:9000
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-minioadmin}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-minioadmin}
+      - AWS_ENDPOINT_URL=http://minio:9000
+      - MILVUS_HOST=milvus
+      - MILVUS_PORT=19530
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    networks:
+      - ml-network
+
+  serving:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.serving
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./scripts:/workspace/scripts
+      - ./models:/workspace/models
+    environment:
+      - TRITON_PTXAS_PATH=/usr/local/cuda/bin/ptxas
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    networks:
+      - ml-network
+
+networks:
+  ml-network:
+    driver: bridge

@@ -1,0 +1,16 @@
+project: ragproject
+provider: local
+registry: data/registry.db
+online_store:
+  type: milvus
+  host: http://milvus
+  port: 19530
+  vector_enabled: true
+  embedding_dim: 768
+  index_type: FLAT
+  metric_type: COSINE
+offline_store:
+  type: file
+entity_key_serialization_version: 3
+auth:
+  type: no_auth

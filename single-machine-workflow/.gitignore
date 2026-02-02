@@ -1,0 +1,42 @@
+# Runtime data
+data/*
+!data/.gitkeep
+
+# Model checkpoints
+models/*
+!models/.gitkeep
+
+# Environment
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Docker volumes
+minio-data/
+milvus-data/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Feast registry
+configs/feast/data/
+*.db
+
+# TensorBoard
+runs/
+logs/
+
+# Temp
+*.tmp
+*.bak

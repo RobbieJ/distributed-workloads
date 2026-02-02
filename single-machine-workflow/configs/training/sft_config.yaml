@@ -1,0 +1,23 @@
+# SFT training configuration
+# Used with: python scripts/02_sft_llm.py
+model_name_or_path: ibm-granite/granite-3.0-1b-a400m-base
+torch_dtype: bfloat16
+attn_implementation: sdpa
+
+# PEFT / LoRA
+use_peft: true
+lora_r: 16
+lora_alpha: 8
+lora_dropout: 0.05
+
+# Dataset
+dataset_name: gsm8k
+dataset_config: main
+
+# Training
+num_train_epochs: 10
+per_device_train_batch_size: 4
+learning_rate: 2.0e-4
+gradient_accumulation_steps: 4
+gradient_checkpointing: true
+max_seq_length: 1024
